@@ -9,16 +9,16 @@ import DiceThrower from '../dice-thrower.js'
 /**
  * The base actor class for the mage System, extends Foundry's Actor.
  * Natively used by NPC sleepers, and extended by every other actor types.
- * 
+ *
  * Implements a custom constructor in order to allow for inheritance of actor classes (not natively possible).
- * Also adds, extends and overrides a number of functions specific to the system (obviously). 
- * 
+ * Also adds, extends and overrides a number of functions specific to the system (obviously).
+ *
  * Notes : during preparation, usefull items values are duplicated in the actor's data.traits object.
  * usefull actor traits and derived data (attributes, willpower, initiative, etc) are also duplicated in data.traits.
  * So that every rollable value (and associated data) stands in one place with one common accessible structure.
- * 
+ *
  * ActiveEffects are applied to theses duplicates and not the original values.
- * 
+ *
  * @extends {Actor}
  */
 export default class M20eActor extends Actor {
@@ -56,7 +56,7 @@ export default class M20eActor extends Actor {
     this.data.stats = {};
     this._prepareActorStats();
     this._prepareItemsStats();
-    this._prepareResources(); 
+    this._prepareResources();
   }
 
   /* -------------------------------------------- */
@@ -84,7 +84,7 @@ export default class M20eActor extends Actor {
   /* -------------------------------------------- */
 
   /**
-   * populates the actor's stats object with path and statData from 'stat' items 
+   * populates the actor's stats object with path and statData from 'stat' items
    */
   _prepareItemsStats() {
     const actorData = this.data;
@@ -114,7 +114,7 @@ export default class M20eActor extends Actor {
    _prepareResources() {
     const WT = CONFIG.M20E.WOUNDTYPE;
     const actorData = this.data;
-    
+
     //create willpower property with {value, max} pair
     const willpower = actorData.data.resources.willpower;
     foundry.utils.setProperty(actorData.data,
@@ -128,8 +128,8 @@ export default class M20eActor extends Actor {
     if ( !foundry.utils.hasProperty(CONFIG.M20E.stats, 'secondary.willpower') ) {
       foundry.utils.setProperty(CONFIG.M20E.stats, 'secondary.willpower', game.i18n.localize('M20E.secondary.willpower'));
     }
-    
-    
+
+
     //create health property with {value, max} pair
     const health = actorData.data.resources.health;
     foundry.utils.setProperty(actorData.data,
@@ -150,7 +150,7 @@ export default class M20eActor extends Actor {
    * Called by prepareEmbeddedEntities() during the second phase of data preparation
    * mostly vanilla function
    * adds a _sourceValue to properties that are gonna be changed by the data override
-   * 
+   *
    * @override
    */
   applyActiveEffects() {
@@ -175,11 +175,11 @@ export default class M20eActor extends Actor {
       const sourceValue = foundry.utils.getProperty(this.data, change.key);
       const result = change.effect.apply(this, change);
       if ( result !== null ) {
-        
+
         //Mage-Fr specific
         const path = change.key.match(/(?<=stats\.)(.+)(?=\.)/g);
         if ( path ) {
-          //only for AE on the stats array          
+          //only for AE on the stats array
           if ( !foundry.utils.hasProperty(this.data.stats, `${path}._sourceValue`) ) {
             //don't set sourceValue if it has already been set before
             foundry.utils.setProperty(this.data.stats, `${path}._sourceValue`, sourceValue);
@@ -212,7 +212,7 @@ export default class M20eActor extends Actor {
   manageLinkedEffect(effect) {
     const origins = effect.data.origin.split('.');
     if ( origins[2] !== 'Item' ) { return; }
-    //origin is obviously a uuid for an owned item 
+    //origin is obviously a uuid for an owned item
     const item = this.items.get(origins[3])
     if ( !item ) { return; }
 
@@ -279,14 +279,14 @@ export default class M20eActor extends Actor {
   /* -------------------------------------------- */
 
   /**
-   * Added base abilities compendium support to vanilla function 
+   * Added base abilities compendium support to vanilla function
    * @override
    */
    static async createDialog(data={}, options={}) {
 
     // Collect data
     const documentName = this.metadata.name;
-    const types = game.system.entityTypes[documentName];
+    const types = game.system.documentTypes[documentName];
     const folders = game.folders.filter(f => (f.data.type === documentName) && f.displayed);
     const label = game.i18n.localize(this.metadata.label);
     const title = game.i18n.localize('M20E.new.createActor');
@@ -379,10 +379,10 @@ export default class M20eActor extends Actor {
    async _getBaseAbilities(fullPackName) {
     //try and get the pack from given packname
     const pack = game.packs.get(fullPackName);
-    const baseAbilities = pack ? 
+    const baseAbilities = pack ?
       await this._getAbilitiesFromPack(pack) :
       await this._getDefaultAbilities();
-    
+
     //alpha sort the abilities now that they're localized
     baseAbilities.sort(utils.alphaSort());
     //defines the sort property so that later user-added abilities will display on top
@@ -395,8 +395,8 @@ export default class M20eActor extends Actor {
   /* -------------------------------------------- */
 
   /**
-   * 
-   * Gets base abilities from a valid pack 
+   *
+   * Gets base abilities from a valid pack
    * maps them to itemData objects (mostly for uniformity with _getDefaultAbilities())
    * @param  {CompendiumCollection} pack a valid base.abilities CompendiumCollection
    * @return {Array} an array of item data objects
@@ -419,7 +419,7 @@ export default class M20eActor extends Actor {
   /* -------------------------------------------- */
 
   /**
-   * Gets base abilities from config + localization 
+   * Gets base abilities from config + localization
    * get subType description from html template + localization file
    * @return {Array} an array of item data objects
    */
@@ -543,8 +543,8 @@ export default class M20eActor extends Actor {
    * Get the user overridden translation for the specific path in the translation file
    * Ask the paradigm item for that specific lexicon entry
    * Mostly called by the locadigm HB helper
-   * 
-   * @return {String|undefined} the text the user chose for this translation path 
+   *
+   * @return {String|undefined} the text the user chose for this translation path
    */
   getLexiconEntry(relativePath) {
     const paraItem = this.paradigm;
@@ -572,7 +572,7 @@ export default class M20eActor extends Actor {
 
   /* -------------------------------------------- */
 
-  /** 
+  /**
    * 'Safe' update as in
    * todo : do better !
    * "if value is a number, parseInt it just to be on the 'safe' side"
@@ -597,7 +597,7 @@ export default class M20eActor extends Actor {
     const overflow = (rez, amount, woundType, updateObj={}) => {
       const remainder = Math.max(amount - (rez.max - rez[woundType]), 0);
       updateObj[`data.resources.${resourceName}.${woundType}`] = Math.min(rez.max, rez[woundType] + amount);
-      return ( remainder &&  woundType < M20E.WOUNDTYPE.AGGRAVATED ) ? 
+      return ( remainder &&  woundType < M20E.WOUNDTYPE.AGGRAVATED ) ?
         overflow(rez, remainder, woundType + 1, updateObj) : updateObj;
     }
     //recursively standardize lower woundTypes values to the highest value if needed
@@ -632,7 +632,7 @@ export default class M20eActor extends Actor {
       updateObj[`data.resources.${resourceName}.${woundType}`] = newValue;
       //calculate remainder based on the actual healed value for this wountType
       const remainder = Math.max(amount - (rez[woundType] - newValue), 0);
-      return ( remainder &&  woundType > M20E.WOUNDTYPE.BASHING ) ? 
+      return ( remainder &&  woundType > M20E.WOUNDTYPE.BASHING ) ?
         overflow(rez, remainder, woundType - 1, newValue, updateObj) : updateObj;
     }
 
@@ -709,7 +709,7 @@ export default class M20eActor extends Actor {
   getExtendedStats(stats) {
     return stats.map( trait => {
       const itemId = trait.itemId || this._getStat(trait.path, 'itemId');
-      const xData = itemId ? 
+      const xData = itemId ?
         this.getItemFromId(itemId).getExtendedTraitData(trait.path) :
         this.getExtendedTraitData(trait.path);
       return new Trait({
