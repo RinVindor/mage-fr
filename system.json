@@ -1,7 +1,7 @@
 {
   "name": "mage-fr",
   "title": "Mage-fr M20e",
-  "description": "[Unofficial WOD] Mage l'Ascension - 20e, système pour Foundry VTT.<br>[FR][EN].<br>Developped for Foundry 0.8.x.",
+  "description": "WoD - Mage Ascension - 20E, systeme for Foundry VTT.",
   "author": "Carter_DC",
   "authors": [
     {
@@ -12,7 +12,7 @@
   "version": "0.23.63",
   "templateVersion": "1",
   "minimumCoreVersion": "0.8.3",
-  "compatibleCoreVersion": "0.8.9",
+  "compatibleCoreVersion": "0.9.0",
 
   "esmodules": ["m20e.js"],
 
