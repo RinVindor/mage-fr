@@ -33,7 +33,7 @@
   "media": [
     {
       "type": "cover",
-      "link": "https://raw.githubusercontent.com/wiki/CarterDC/mage-fr/images/miniature.png"
+      "link": "https://raw.githubusercontent.com/wiki/RinVindor/mage-fr/images/miniature.png"
     }
   ],
 
@@ -42,8 +42,8 @@
 
   "socket": "true",
 
-  "url": "https://github.com/CarterDC/mage-fr",
-  "manifest": "https://github.com/CarterDC/mage-fr/releases/latest/download/system.json",
-  "download": "https://github.com/CarterDC/mage-fr/archive/refs/heads/main.zip",
+  "url": "https://github.com/RinVindor/mage-fr",
+  "manifest": "https://github.com/RinVindor/mage-fr/releases/latest/download/system.json",
+  "download": "https://github.com/RinVindor/mage-fr/archive/refs/heads/main.zip",
   "license": "LICENSE"
 }
