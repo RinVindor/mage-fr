@@ -1,6 +1,6 @@
 ﻿# Foundry Virtual Tabletop - Mage-Fr system
 
-MANUAL INSTALL: https://raw.githubusercontent.com/RinVindor/mage-fr/main/system.json
+MANUAL INSTALL: https://github.com/RinVindor/mage-fr/releases/latest/download/system.json
 
 ## ⚠ This is still a beta release and should be reserved for testing purposes only !
 ## ⚠ No migration script will be implemented until V1 !
